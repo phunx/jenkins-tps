@@ -12,9 +12,10 @@ pipeline {
     }
 
     stage('Run test cred'){
-      // Récuperer le crédential file
-      withCredentials([file(credentialsId: 'GOSS_FILE', variable: 'gossFile')]) {
-        sh 'goss --gossfile $gossFile validate --format tap 2>&1 > goss_test.txt'
+      steps {
+        withCredentials([file(credentialsId: 'GOSS_FILE', variable: 'gossFile')]) {
+          sh 'goss --gossfile $gossFile validate --format tap 2>&1 > goss_test.txt'
+        }
       }
     }
   }
