@@ -13,14 +13,15 @@ pipeline {
 
     stage('Run test cred'){
       // Récuperer le crédential file
-
-      // lancer la commande
+      withCredentials([file(credentialsId: 'GOSS_FILE', variable: 'gossFile')]) {
+        sh 'goss --gossfile $gossFile validate --format tap 2>&1 > goss_test.txt'
+      }
     }
   }
 
   post {
     always {
-      // Sauvegarder le fichier de résultat
+      archiveArtifacts 'goss_test.txt'
     }
     success {
         echo 'I succeeeded!'
